@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model TipoArea {
+  id     Int    @id @default(autoincrement())
+  nombre String @db.VarChar(50)
+
+  // Relaciones
+  areas      Area[]
+  contadores Contador[]
+
+  @@map("tipo_area")
+}
+
+model Area {
+  id         Int    @id @default(autoincrement())
+  nombre     String @db.VarChar(50)
+  fkTipoArea Int    @map("fk_tipo_area")
+
+  // Relación con TipoArea
+  tipoArea TipoArea @relation(fields: [fkTipoArea], references: [id])
+
+  // Relación con Turno
+  turnos Turno[]
+
+  @@map("area")
+}
+
+model Estatu {
+  id     Int    @id @default(autoincrement())
+  nombre String @db.VarChar(30)
+
+  // Relación con Turno
+  turnos Turno[]
+
+  @@map("estatu")
+}
+
+model Genero {
+  id     Int    @id // Sin autoincrement según tu SQL original
+  nombre String @db.VarChar(30)
+
+  // Relación con Turno
+  turnos Turno[]
+
+  @@map("genero")
+}
+
+model Usuario {
+  id              Int     @id @default(autoincrement())
+  username        String  @unique @db.VarChar(50)
+  password        String  @db.VarChar(100)
+  nombre          String  @db.VarChar(50)
+  apellidoPaterno String? @map("apellido_paterno") @db.VarChar(50)
+  apellidoMaterno String? @map("apellido_materno") @db.VarChar(50)
+
+  // Relación con Turno
+  turnos Turno[]
+
+  @@map("usuario")
+}
+
+model Turno {
+  id                Int       @id @default(autoincrement())
+  folio             String    @db.VarChar(10)
+  fechaHora         DateTime  @map("fecha_hora")
+  fechaHoraAtendida DateTime? @map("fecha_hora_atendida")
+
+  fkUsuario      Int? @map("fk_usuario")
+  fkAreaAsignada Int? @map("fk_area_asignada")
+  fkEstatu       Int  @map("fk_estatu")
+  fkGenero       Int? @map("fk_genero")
+
+  // Relaciones
+  usuario Usuario? @relation(fields: [fkUsuario], references: [id])
+  area    Area?    @relation(fields: [fkAreaAsignada], references: [id])
+  estatu  Estatu   @relation(fields: [fkEstatu], references: [id])
+  genero  Genero?  @relation(fields: [fkGenero], references: [id])
+
+  @@map("turno")
+}
+
+model Contador {
+  id          Int      @id @default(autoincrement())
+  consecutivo Int
+  fecha       DateTime @db.Date
+  fkTipoArea  Int      @map("fk_tipo_area")
+
+  // Relación con TipoArea
+  tipoArea TipoArea @relation(fields: [fkTipoArea], references: [id])
+
+  @@map("contador")
+}
