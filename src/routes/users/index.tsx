@@ -1,6 +1,6 @@
 import { UserCard } from "@/components/features/users/UserCard";
 import { GetAllUser } from "@/features/users/user.actions";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/users/")({
 	component: UsersListPage,

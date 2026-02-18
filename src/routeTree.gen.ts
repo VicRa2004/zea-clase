@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UsersIndexRouteImport } from './routes/users/index'
+import { Route as TurnsIndexRouteImport } from './routes/turns/index'
 import { Route as UsersUserIdRouteImport } from './routes/users/$userId'
+import { Route as TurnsCreateRouteImport } from './routes/turns/create'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,39 +25,63 @@ const UsersIndexRoute = UsersIndexRouteImport.update({
   path: '/users/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TurnsIndexRoute = TurnsIndexRouteImport.update({
+  id: '/turns/',
+  path: '/turns/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UsersUserIdRoute = UsersUserIdRouteImport.update({
   id: '/users/$userId',
   path: '/users/$userId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TurnsCreateRoute = TurnsCreateRouteImport.update({
+  id: '/turns/create',
+  path: '/turns/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/turns/create': typeof TurnsCreateRoute
   '/users/$userId': typeof UsersUserIdRoute
+  '/turns': typeof TurnsIndexRoute
   '/users': typeof UsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/turns/create': typeof TurnsCreateRoute
   '/users/$userId': typeof UsersUserIdRoute
+  '/turns': typeof TurnsIndexRoute
   '/users': typeof UsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/turns/create': typeof TurnsCreateRoute
   '/users/$userId': typeof UsersUserIdRoute
+  '/turns/': typeof TurnsIndexRoute
   '/users/': typeof UsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/users/$userId' | '/users'
+  fullPaths: '/' | '/turns/create' | '/users/$userId' | '/turns' | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/users/$userId' | '/users'
-  id: '__root__' | '/' | '/users/$userId' | '/users/'
+  to: '/' | '/turns/create' | '/users/$userId' | '/turns' | '/users'
+  id:
+    | '__root__'
+    | '/'
+    | '/turns/create'
+    | '/users/$userId'
+    | '/turns/'
+    | '/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  TurnsCreateRoute: typeof TurnsCreateRoute
   UsersUserIdRoute: typeof UsersUserIdRoute
+  TurnsIndexRoute: typeof TurnsIndexRoute
   UsersIndexRoute: typeof UsersIndexRoute
 }
 
@@ -75,6 +101,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/turns/': {
+      id: '/turns/'
+      path: '/turns'
+      fullPath: '/turns'
+      preLoaderRoute: typeof TurnsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/users/$userId': {
       id: '/users/$userId'
       path: '/users/$userId'
@@ -82,12 +115,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersUserIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/turns/create': {
+      id: '/turns/create'
+      path: '/turns/create'
+      fullPath: '/turns/create'
+      preLoaderRoute: typeof TurnsCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  TurnsCreateRoute: TurnsCreateRoute,
   UsersUserIdRoute: UsersUserIdRoute,
+  TurnsIndexRoute: TurnsIndexRoute,
   UsersIndexRoute: UsersIndexRoute,
 }
 export const routeTree = rootRouteImport
