@@ -13,7 +13,7 @@ import { Calendar, Hash } from "lucide-react";
 export const Route = createFileRoute("/turns/create")({
   component: RouteComponent,
   loader: async () => {
-    const tiposArea = await getAllTiposArea();
+    /*const tiposArea = await getAllTiposArea();
     const contador = await getOneContador({
       data: { idTipoArea: TipoAreaEnum.CAJA },
     });
@@ -22,24 +22,24 @@ export const Route = createFileRoute("/turns/create")({
 
     const folio = generateFolio(inicial, contador.consecutivo);
 
-    return { tiposArea, folio };
+    return { tiposArea, folio }; */
   },
 });
 
 function RouteComponent() {
-  const { tiposArea, folio } = Route.useLoaderData();
+  /*const { tiposArea, folio } = Route.useLoaderData();
 
   const options = tiposArea.map((tipo) => ({
     value: String(tipo.id),
     text: tipo.nombre,
-  }));
+  }));*/
 
   return (
     <div>
       <h2 className="text-2xl font-semibold">Solicitudes</h2>
 
       <form className="mt-4 p-4 rounded-lg shadow-lg flex flex-col" action="">
-        <Select name="area" label="Selecione el area" options={options} />
+        <Select name="area" label="Selecione el area" options={[]} />
         <Button type="submit">Enviar</Button>
       </form>
       <section className="mt-6 overflow-hidden rounded-xl border border-indigo-100 bg-white shadow-sm transition-all hover:shadow-md ">
@@ -79,7 +79,7 @@ function RouteComponent() {
                 Número de Folio
               </p>
               <p className="text-lg font-mono font-bold text-slate-900 tracking-tight">
-                {folio}
+                {`folio`}
               </p>
             </div>
           </div>

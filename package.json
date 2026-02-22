@@ -2,6 +2,11 @@
   "name": "turnos-zea",
   "private": true,
   "type": "module",
+  "pnpm": {
+    "overrides": {
+      "solid-js": "1.9.11"
+    }
+  },
   "scripts": {
     "dev": "vite dev --port 3000",
     "build": "vite build",
