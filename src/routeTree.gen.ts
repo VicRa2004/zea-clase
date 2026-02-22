@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as UsersIndexRouteImport } from './routes/users/index'
 import { Route as TurnsIndexRouteImport } from './routes/turns/index'
 import { Route as UsersUserIdRouteImport } from './routes/users/$userId'
+import { Route as TurnsMonitorRouteImport } from './routes/turns/monitor'
 import { Route as TurnsCreateRouteImport } from './routes/turns/create'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const UsersUserIdRoute = UsersUserIdRouteImport.update({
   path: '/users/$userId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TurnsMonitorRoute = TurnsMonitorRouteImport.update({
+  id: '/turns/monitor',
+  path: '/turns/monitor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TurnsCreateRoute = TurnsCreateRouteImport.update({
   id: '/turns/create',
   path: '/turns/create',
@@ -44,6 +50,7 @@ const TurnsCreateRoute = TurnsCreateRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/turns/create': typeof TurnsCreateRoute
+  '/turns/monitor': typeof TurnsMonitorRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/turns': typeof TurnsIndexRoute
   '/users': typeof UsersIndexRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/turns/create': typeof TurnsCreateRoute
+  '/turns/monitor': typeof TurnsMonitorRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/turns': typeof TurnsIndexRoute
   '/users': typeof UsersIndexRoute
@@ -59,19 +67,33 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/turns/create': typeof TurnsCreateRoute
+  '/turns/monitor': typeof TurnsMonitorRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/turns/': typeof TurnsIndexRoute
   '/users/': typeof UsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/turns/create' | '/users/$userId' | '/turns' | '/users'
+  fullPaths:
+    | '/'
+    | '/turns/create'
+    | '/turns/monitor'
+    | '/users/$userId'
+    | '/turns'
+    | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/turns/create' | '/users/$userId' | '/turns' | '/users'
+  to:
+    | '/'
+    | '/turns/create'
+    | '/turns/monitor'
+    | '/users/$userId'
+    | '/turns'
+    | '/users'
   id:
     | '__root__'
     | '/'
     | '/turns/create'
+    | '/turns/monitor'
     | '/users/$userId'
     | '/turns/'
     | '/users/'
@@ -80,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TurnsCreateRoute: typeof TurnsCreateRoute
+  TurnsMonitorRoute: typeof TurnsMonitorRoute
   UsersUserIdRoute: typeof UsersUserIdRoute
   TurnsIndexRoute: typeof TurnsIndexRoute
   UsersIndexRoute: typeof UsersIndexRoute
@@ -115,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersUserIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/turns/monitor': {
+      id: '/turns/monitor'
+      path: '/turns/monitor'
+      fullPath: '/turns/monitor'
+      preLoaderRoute: typeof TurnsMonitorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/turns/create': {
       id: '/turns/create'
       path: '/turns/create'
@@ -128,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TurnsCreateRoute: TurnsCreateRoute,
+  TurnsMonitorRoute: TurnsMonitorRoute,
   UsersUserIdRoute: UsersUserIdRoute,
   TurnsIndexRoute: TurnsIndexRoute,
   UsersIndexRoute: UsersIndexRoute,
