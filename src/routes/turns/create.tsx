@@ -1,27 +1,21 @@
 import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
+import { getAllTiposArea } from "@/features/catalogs/catalogs.actions";
 import { createFileRoute } from "@tanstack/react-router";
 import { Calendar, Hash } from "lucide-react";
 
 export const Route = createFileRoute("/turns/create")({
   component: RouteComponent,
+  loader: async () => await getAllTiposArea(),
 });
 
 function RouteComponent() {
-  const options = [
-    {
-      text: "CAJA",
-      value: "caja",
-    },
-    {
-      text: "EJECUTIVO",
-      value: "ejecutivo",
-    },
-    {
-      text: "SEGUROS",
-      value: "seguros",
-    },
-  ];
+  const tiposArea = Route.useLoaderData();
+
+  const options = tiposArea.map((tipo) => ({
+    value: String(tipo.id),
+    text: tipo.nombre,
+  }));
 
   return (
     <div>
