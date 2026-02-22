@@ -126,3 +126,16 @@ export const getContadorInDb = async (
 		tipoArea: data.tipoArea,
 	};
 };
+
+export const generateFolio = async (
+	inicial: string | null,
+	consecutivo: number,
+) => {
+	if (!inicial) {
+		throw new Error("No existe el tipo de area");
+	}
+
+	const formateado = consecutivo.toString().padStart(4, "0");
+
+	return `${inicial}${formateado}`;
+};

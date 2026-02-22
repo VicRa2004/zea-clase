@@ -1,16 +1,33 @@
 import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
 import { getAllTiposArea } from "@/features/catalogs/catalogs.actions";
+import {
+  obtenerInicialArea,
+  TipoAreaEnum,
+} from "@/features/catalogs/catalogs.types";
+import { getOneContador } from "@/features/turns/turn.actions";
+import { generateFolio } from "@/features/turns/turn.service";
 import { createFileRoute } from "@tanstack/react-router";
 import { Calendar, Hash } from "lucide-react";
 
 export const Route = createFileRoute("/turns/create")({
   component: RouteComponent,
-  loader: async () => await getAllTiposArea(),
+  loader: async () => {
+    const tiposArea = await getAllTiposArea();
+    const contador = await getOneContador({
+      data: { idTipoArea: TipoAreaEnum.CAJA },
+    });
+
+    const inicial = obtenerInicialArea(TipoAreaEnum.CAJA);
+
+    const folio = generateFolio(inicial, contador.consecutivo);
+
+    return { tiposArea, folio };
+  },
 });
 
 function RouteComponent() {
-  const tiposArea = Route.useLoaderData();
+  const { tiposArea, folio } = Route.useLoaderData();
 
   const options = tiposArea.map((tipo) => ({
     value: String(tipo.id),
@@ -62,7 +79,7 @@ function RouteComponent() {
                 Número de Folio
               </p>
               <p className="text-lg font-mono font-bold text-slate-900 tracking-tight">
-                C0001
+                {folio}
               </p>
             </div>
           </div>
